@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义指令</title>
+	<script src="./vue.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		<input v-focus v-bind:value="message">
+	</div>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app-1',
+			data:{
+				message:'hello'
+			},
+			directives:{
+				focus:{
+					inserted:function(el){
+						el.focus()
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>

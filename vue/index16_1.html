@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>vue路由开篇</title>
+	<script src="./vue.js"></script>
+	<script src="./vue-router.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+        <h1>Hello App!</h1>
+		<p>
+		  	<!-- 使用 router-link 组件来导航. -->
+    		<!-- 通过传入 `to` 属性指定链接. -->
+    		<!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+		   <router-link to="/foo">Go to Foo</router-link>
+		   <router-link to="/bar">Go to Bar</router-link>
+		</p>
+		 <!-- 路由出口 -->
+         <!-- 路由匹配到的组件将渲染在这里 -->
+		<router-view></router-view>
+	</div>
+
+	<div id="app-2">
+		<p>
+			<router-link to="/user/foo">/user/foo</router-link>
+			<router-link to="/user/bar">/user/bar</router-link>
+		</p>
+		<router-view></router-view>
+	</div>
+	<script type="text/javascript">
+		const Foo = {template:'<div>foo</div>'}
+		const Bar = {template:'<div>bar</div>'}
+		const routes = [
+			{path:'/foo',component:Foo},
+			{path:'/bar',component:Bar}
+		]
+
+		const router = new VueRouter({
+			routes
+		})
+
+		const app = new Vue({
+			router
+		}).$mount('#app-1')
+		//app-2
+		const User = {
+			template:'<div>User{{$route.params.id}}</div>'
+		}
+
+		const router2 = new VueRouter({
+			routes:[
+				{path:'/user/:id',component:User}
+			]
+		})
+
+		const app2 = new Vue({
+			router2
+		}).$mount('#app-2')
+	</script>
+</body>
+</html>

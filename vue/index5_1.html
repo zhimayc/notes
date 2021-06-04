@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Class与Style绑定</title>
+	<script src="./vue.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		<div class="static" v-bind:class="{active:isActive}"></div>
+	</div>
+
+	<div id="app-2">
+		<div v-bind:class="classObject"></div>
+	</div>
+
+	<div id="app-3">
+		<div v-bind:class="classObject"></div>
+	</div>
+
+	<div id="app-4">
+		<div v-bind:class="[activeClass,errorClass]"></div>
+	</div>
+
+	<div id="app-5">
+		<div v-bind:class="[isActive ? activeClass : '',errorClass]"></div>
+	</div>
+	
+	<div id="app-6">
+		<div v-bind:class="[{active:isActive},errorClass]"></div>
+	</div>
+	
+	<div id="app-7">
+		<myitem class="baz boo"></myitem>
+	</div>
+
+	<div id="app-8">
+		<div v-bind:style="{color:activeColor,fontSize:fontSize + 'px'}">hello</div>
+	</div>
+
+	<div id="app-9">
+		<div v-bind:style="styleObject">hello</div>
+	</div>
+
+	<div id="app-10">
+		<div v-bind:style="{display:['-webkit-box','-ms-flexbox','flex']}">hello</div>
+	</div>
+
+	<script type="text/javascript">
+		/*  classactive 的更新将取决于数据属性 isActive 是否为真值 */
+		var vm = new Vue({
+			el:'#app-1',
+			data:{
+				isActive:true
+			}
+		});
+
+		/*直接绑定数据里的一个对象*/
+		var vm2 = new Vue({
+			el:'#app-2',
+			data:{
+				classObject:{
+					active:true,
+					'text-danger':false
+				}
+			}
+		});
+		/*我们也可以在这里绑定返回对象的计算属性*/
+		var vm3 = new Vue({
+			el:'#app-3',
+			data:{
+				isActive: true,
+  				error: null
+			},
+			computed:{
+				classObject: function () {
+			    return {
+			      active: this.isActive && !this.error,
+			      'text-danger': this.error && this.error.type === 'fatal',
+			    }
+			  }
+			}
+		});
+
+		/*我们可以把一个数组传给 v-bind:class ，以应用一个 class 列表*/
+		var vm4 = new Vue({
+			el:'#app-4',
+			data:{
+				activeClass:'active',
+				errorClass:'text-danger'
+			}
+		});
+
+		var vm5 = new Vue({
+			el:'#app-5',
+			data:{
+				isActive:true,
+				activeClass:'active',
+				errorClass:'text-danger'
+			}
+		});
+
+		var vm6 = new Vue({
+			el:'#app-6',
+			data:{
+				isActive:false,
+				activeClass:'active',
+				errorClass:'text-danger'
+			}
+		}); 
+
+		Vue.component('myitem', {
+		  template: '<p class="foo bar">Hi</p>'
+		});
+
+		var vm7 = new Vue({
+			el:'#app-7',
+		});
+
+		var vm8 = new Vue({
+			el:'#app-8',
+			data:{
+				activeColor:'red',
+				fontSize:30
+			}
+		});
+
+		var vm9 = new Vue({
+			el:'#app-9',
+			data:{
+				styleObject:{
+					color:'red',
+					fontSize:'13px'
+				}
+			}
+		});
+
+		var vm10 = new Vue({
+			el:'#app-10',
+		});		
+	</script>
+</body>
+</html>

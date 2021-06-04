@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>组件</title>
+	<script src="./vue.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		<my-component></my-component>
+	</div>
+
+	<div id="app-2">
+		<example-child message="abc"></example-child>
+	</div>
+
+	<div id="app-3">
+		<input v-model="parentMsg">
+		<br>
+		<tchild v-bind:my-message="parentMsg"></tchild>
+	</div>
+
+	<div id="counter-event-example">
+		<p>{{total}}</p>
+		<button-counter v-on:increment="incrementTotal"></button-counter>
+		<button-counter v-on:increment="incrementTotal"></button-counter>
+	</div>
+
+	<script type="text/javascript">
+		var child = {
+			template:'<div>A custom component!</div>'
+		}
+		var vm = new Vue({
+			el:'#app-1',
+			components:{
+				'my-component':child
+			}
+		});
+
+		Vue.component('example-child',{
+			props:['message'],
+			template:'<span>{{message}}</span>'
+		});
+		var vm2 = new Vue({
+			el:'#app-2',
+			data:{
+				message:'hello'
+			}
+		});
+
+		Vue.component('tchild',{
+			props:['myMessage'],
+			template:'<span>{{myMessage}}</span>'
+		});
+
+		var vm3 = new Vue({
+			el:'#app-3',
+			data:{
+				parentMsg:'动态绑定父组件数据！'
+			}
+		});
+
+		Vue.component('button-counter',{
+			template:'<button v-on:click="increment">{{counter}}</button>',
+			data:function(){
+				return{
+					counter:0
+				}
+			},
+			methods:{
+				increment:function(){
+					this.counter += 1
+					this.$emit('increment')
+				}
+			}
+		});
+		var vmexp = new Vue({
+			el:'#counter-event-example',
+			data:{
+				total:0
+			},
+			methods:{
+				incrementTotal:function(){
+					this.total += 1
+				}
+			}
+		});
+	</script>
+</body>
+</html>

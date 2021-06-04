@@ -1,0 +1,8 @@
+{
+    "name":"apidoc 测试",
+    "version":"0.17.6",
+    "description":"api测试文档",
+    "title":"api测试文档标题",
+    "url":"https://api.github.com/v1"
+    
+}

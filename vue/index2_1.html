@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>构建实例</title>
+	<script src="./vue.js"></script>
+	<style type="text/css">
+		#app-2{width:100px;height:100px;background:orange;color:#fff;}
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		{{message}}
+	</div>
+	
+	<div id="app-2">
+		<h1>app-2</h1>
+		{{message}}
+	</div>
+	<script type="text/javascript">
+		var data = {message:1}
+		var vm = new Vue({
+			el:'#app-1',
+			data:data
+		});
+		vm.$watch('message',function(newVal,oldVal){
+			alert('value is changed!');
+		});
+
+
+		var vm1 = new Vue({
+			data:{
+			  a:2
+			},
+			/* 也有一些其它的钩子，在实例生命周期的不同阶段调用，如 mounted、 updated 、destroyed 。钩子的 this 指向调用它的 Vue 实例。*/
+			created:function(){ //这个钩子在实例被创建之后调用
+				//this 指向Vue实例
+				console.log('a is:'+this.a);
+			}
+
+		});
+
+		var vm2 = new Vue({
+			data:{message:'hello,mount'}
+		});
+
+		vm2.$mount('#app-2');
+	</script>
+</body>
+</html>

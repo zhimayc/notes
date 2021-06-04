@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>vue前后台数据交互(axios)</title>
+	<script src="./vue.js"></script>
+	<script src="./qs.js"></script>
+	<script src="./axios.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click="get()">get获取数据</button>
+		<button @click="post()">post获取数据</button>
+		<button @click="free()">free获取数据</button>
+		<p v-for="msg in msgs">{{msg}}</p>
+	</div>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msgs:{
+					a:1,
+					b:1
+				}
+			},
+			methods:{
+				//发送get请求
+				get:function(){
+					axios.get('http://web.myweb.com/vue/test.php',{
+					  params:{
+					    a:1,
+					    b:1
+					  }
+					})
+					.then(function(response){
+						vm.msgs=response.data;
+					})
+					.catch(function(err){
+					  console.log(err);
+					});
+				},
+				post:function(){
+					var params = new URLSearchParams();
+					params.append('a', 2);
+					params.append('b', 2);
+					  axios.post('http://web.myweb.com/vue/test.php',params)
+					  .then(function(response){
+					  	console.log(response);
+					    vm.msgs=response.data;
+					  })
+					  .catch(function(error){
+					    console.log(error);
+					  });
+				},
+				free:function(){
+					axios.post('http://web.myweb.com/vue/test.php', Qs.stringify({
+					    a: 3,
+						b:3 
+					})).then(function(response){
+						console.log(response);
+						vm.msgs=response.data;	
+					}).catch(function(error){
+						console.log(error);
+					});
+				}
+			}
+		})
+	</script>
+</body>
+</html>

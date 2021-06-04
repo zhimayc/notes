@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>混合</title>
+	<script src="./vue.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		
+	</div>
+	<script type="text/javascript">
+		var mixin = {
+		  methods: {
+		    foo: function () {
+		      console.log('foo')
+		    },
+		    conflicting: function () {
+		      console.log('from mixin')
+		    }
+		  }
+		}
+
+		var vm = new Vue({
+		  mixins: [mixin],
+		  methods: {
+		    bar: function () {
+		      console.log('bar')
+		    },
+		    conflicting: function () {
+		      console.log('from self')
+		    }
+		  }
+		})
+
+		vm.foo() // -> "foo"
+		vm.bar() // -> "bar"
+		vm.conflicting() // -> "from self"
+
+		Vue.mixin({
+			created:function(){
+				var myOption = this.$options.myOption
+				if(myOption){
+					console.log(myOption)
+				}
+			}
+		});
+
+		var vm2 = new Vue({
+			myOption:'hello!how are you!'
+		});
+	</script>
+</body>
+</html>

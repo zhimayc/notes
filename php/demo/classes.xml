@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="classes.css"?>
+<班级>
+<stu>
+<name>杨菲</name>	
+<sex>女</sex>
+<age>20</age>
+</stu>
+<stu>
+<name>杨静</name>	
+<sex>女</sex>
+<age>22</age>
+</stu>
+	
+</班级>

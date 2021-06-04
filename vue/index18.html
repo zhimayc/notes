@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>vue前后端数据交互</title>
+	<script src="./vue.js"></script>
+	<script src="./vue-resource.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app">
+		<button @click="get()">get获取数据</button>
+		<button @click="post()">post获取数据</button>
+		<button @click="free()">free获取数据</button>
+		<p v-for="msg in msgs">{{msg}}</p>
+	</div>
+	<script type="text/javascript">
+		//如果Web服务器无法处理PUT, PATCH和DELETE这种REST风格的请求，你可以启用enulateHTTP现象。启用该选项后，请求会以普通的POST方法发出，并且HTTP头信息的X-HTTP-Method-Override属性会设置为实际的HTTP方法。
+		Vue.http.options.emulateHTTP = true;
+		//如果Web服务器无法处理编码为application/json的请求，你可以启用emulateJSON选项。启用该选项后，请求会以application/x-www-form-urlencoded作为MIME type，就像普通的HTML表单一样。
+		Vue.http.options.emulateJSON = true; 
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				msgs:{
+					a:1,
+					b:1
+				}
+			},
+			methods:{
+				//发送get请求
+				get:function(){
+					this.$http.get('http://web.myweb.com/vue/test.php',{params:{a:1,b:2}}).then(function(res){
+						vm.msgs=res.body;
+					},function(){
+						alert("失败处理"); //请求失败处理
+					});
+				},
+				post:function(){
+					this.$http.post('http://web.myweb.com/vue/test.php',{a:2,b:2}).then(function(res){
+						vm.msgs=res.body;
+					},function(){
+						alert("请求失败处理") //请求失败处理
+					});
+				},
+				free:function(){
+					this.$http({
+						method:'POST',
+						url:'http://web.myweb.com/vue/test.php',
+						body:{a:3,b:3},
+						headers: {"X-Requested-With": "XMLHttpRequest"},
+						emulateJSON: true
+					}).then(function(res){
+						console.log(res);
+						vm.msgs=res.body;
+					},function(){
+						alert("请求失败处理") //请求失败处理
+					})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

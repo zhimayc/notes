@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>vue动态路由匹配</title>
+	<script src="./vue.js"></script>
+	<script src="./vue-router.js"></script>
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div id="app-1">
+		<p>
+			<router-link to="/user/foo">/user/foo</router-link>
+			<router-link to="/user/bar">/user/bar</router-link>
+		</p>
+		<router-view></router-view>
+	</div>
+	<script type="text/javascript">
+		const User = {
+			template:'<div>User{{$route.params.id}}</div>',
+			watch:{
+				'$route' (to,from){
+					//对路由变化做出响应
+					console.log(to.path)
+				}
+			}
+		}
+
+		const router = new VueRouter({
+			routes:[
+				{path:'/user/:id',component:User}
+			]
+		})
+
+		const app = new Vue({
+			router
+		}).$mount('#app-1')
+	</script>
+</body>
+</html>
